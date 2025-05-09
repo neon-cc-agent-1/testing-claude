@@ -14,7 +14,7 @@ function App() {
 
   return (
     <>
-      <div className="hero" style={{ backgroundColor: 'greenyellow', backgroundImage: 'none' }}>
+      <div className="hero" style={{ backgroundColor: 'magenta', backgroundImage: 'none' }}>
         <div>
           <a href="https://react.dev" target="_blank">
             <img src={reactLogo} className="logo react" alt="React logo" />
