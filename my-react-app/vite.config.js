@@ -8,5 +8,10 @@ export default defineConfig({
     cors: {
       origin: ['https://randomimages.org', 'http://randomimages.org'],
     }
+  },
+  test: {
+    globals: true,
+    environment: 'jsdom',
+    setupFiles: ['./src/setupTests.js'],
   }
 })
