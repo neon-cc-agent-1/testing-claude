@@ -19,6 +19,7 @@ function App() {
         <div className="theme-switcher">
           <button onClick={() => setTheme('default')}>Default</button>
           <button onClick={() => setTheme('cyan')}>Cyan</button>
+          <button onClick={() => setTheme('teal')}>Teal</button>
         </div>
         <div>
           <a href="https://react.dev" target="_blank">
