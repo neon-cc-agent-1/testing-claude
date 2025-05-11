@@ -5,6 +5,7 @@ import './App.css'
 function App() {
   const [count, setCount] = useState(0)
   const [backgroundImage, setBackgroundImage] = useState('')
+  const [theme, setTheme] = useState('default')
 
   useEffect(() => {
     // Get a random image URL
@@ -14,7 +15,11 @@ function App() {
 
   return (
     <>
-      <div className="hero" style={{ backgroundImage: `url(${backgroundImage})` }}>
+      <div className={`hero ${theme}`} style={{ backgroundImage: `url(${backgroundImage})` }}>
+        <div className="theme-switcher">
+          <button onClick={() => setTheme('default')}>Default</button>
+          <button onClick={() => setTheme('cyan')}>Cyan</button>
+        </div>
         <div>
           <a href="https://react.dev" target="_blank">
             <img src={reactLogo} className="logo react" alt="React logo" />

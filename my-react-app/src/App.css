@@ -33,6 +33,22 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.theme-switcher {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cyan {
+  background-color: rgba(0, 200, 200, 0.7);
+}
+
+.cyan .logo.react:hover {
+  filter: drop-shadow(0 0 2em #00ffffaa);
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
