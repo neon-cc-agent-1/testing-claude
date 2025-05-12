@@ -33,6 +33,54 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+.theme-switcher {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  gap: 0.5rem;
+}
+
+.cyan {
+  background-color: rgba(0, 200, 200, 0.7);
+}
+
+.cyan .logo.react:hover {
+  filter: drop-shadow(0 0 2em #00ffffaa);
+}
+
+.teal {
+  background-color: rgba(0, 128, 128, 0.7);
+}
+
+.teal .logo.react:hover {
+  filter: drop-shadow(0 0 2em #008080aa);
+}
+
+.olive {
+  background-color: rgba(128, 128, 0, 0.7);
+}
+
+.olive .logo.react:hover {
+  filter: drop-shadow(0 0 2em #808000aa);
+}
+
+.brown {
+  background-color: rgba(165, 42, 42, 0.7);
+}
+
+.brown .logo.react:hover {
+  filter: drop-shadow(0 0 2em #a52a2aaa);
+}
+
+.orangeyellow {
+  background-color: rgba(255, 165, 0, 0.7);
+}
+
+.orangeyellow .logo.react:hover {
+  filter: drop-shadow(0 0 2em #ffa500aa);
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
