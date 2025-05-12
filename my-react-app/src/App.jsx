@@ -22,6 +22,7 @@ function App() {
           <button onClick={() => setTheme('teal')}>Teal</button>
           <button onClick={() => setTheme('olive')}>Olive</button>
           <button onClick={() => setTheme('brown')}>Brown</button>
+          <button onClick={() => setTheme('orangeyellow')}>Orange Yellow</button>
         </div>
         <div>
           <a href="https://react.dev" target="_blank">
