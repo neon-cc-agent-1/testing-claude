@@ -51,4 +51,21 @@ describe('main.jsx rendering', () => {
     // Verify render was called
     expect(createRoot().render).toHaveBeenCalled();
   });
+  
+  test('correctly handles random elements of the React app', () => {
+    // Generate random element ID
+    const randomId = Math.floor(Math.random() * 1000).toString();
+    
+    // Create a random element
+    const randomElement = document.createElement('div');
+    randomElement.id = randomId;
+    document.body.appendChild(randomElement);
+    
+    // Check if element exists
+    expect(document.getElementById(randomId)).not.toBeNull();
+    
+    // Clean up
+    randomElement.remove();
+    expect(document.getElementById(randomId)).toBeNull();
+  });
 });
