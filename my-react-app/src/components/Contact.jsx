@@ -5,6 +5,7 @@ function Contact() {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
+    phone: '',
     message: ''
   })
   const [submitted, setSubmitted] = useState(false)
@@ -56,6 +57,18 @@ function Contact() {
               value={formData.email}
               onChange={handleChange}
               required
+            />
+          </div>
+          
+          <div className="form-group">
+            <label htmlFor="phone">Phone (optional)</label>
+            <input
+              type="tel"
+              id="phone"
+              name="phone"
+              value={formData.phone}
+              onChange={handleChange}
+              placeholder="(123) 456-7890"
             />
           </div>
           
