@@ -41,6 +41,7 @@
 
 .breadcrumbs a:hover {
   text-decoration: underline;
+  color: #8a2be2; /* Purple color on hover */
 }
 
 .breadcrumbs li[aria-current="page"] {
