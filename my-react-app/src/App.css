@@ -5,6 +5,28 @@
   text-align: center;
 }
 
+.nav {
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 100;
+}
+
+.nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 1rem;
+  font-weight: bold;
+}
+
+.nav a:hover {
+  color: #61dafb;
+}
+
 .hero {
   min-height: 100vh;
   width: 100%;
@@ -18,6 +40,57 @@
   position: relative;
   color: white;
   text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.about-container {
+  max-width: 800px;
+  margin: 100px auto 0;
+  padding: 2rem;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: left;
+}
+
+.about-container h1 {
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.about-container h2 {
+  color: #444;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 0.5rem;
+}
+
+.about-container p {
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  color: #444;
+}
+
+.about-container ul {
+  margin-left: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.about-container li {
+  margin-bottom: 0.5rem;
+  color: #444;
+}
+
+.about-container a {
+  color: #0077cc;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.about-container a:hover {
+  color: #0055aa;
+  text-decoration: underline;
 }
 
 .logo {
