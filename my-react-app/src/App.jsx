@@ -2,6 +2,18 @@ import { useState, useEffect } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
 
+function Breadcrumbs() {
+  return (
+    <nav aria-label="Breadcrumb" className="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li><a href="/dashboard">Dashboard</a></li>
+        <li aria-current="page">Current Page</li>
+      </ol>
+    </nav>
+  )
+}
+
 function App() {
   const [count, setCount] = useState(0)
   const [backgroundImage, setBackgroundImage] = useState('')
@@ -14,6 +26,7 @@ function App() {
 
   return (
     <>
+      <Breadcrumbs />
       <div className="hero" style={{ backgroundImage: `url(${backgroundImage})` }}>
         <div>
           <a href="https://react.dev" target="_blank">
