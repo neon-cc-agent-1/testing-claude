@@ -13,10 +13,16 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
-  useEffect(() => {
-    // Get a random image URL
-    const imageUrl = 'https://randomimages.org/api/random?width=1920&height=1080'
+  const getRandomImage = () => {
+    // Add a timestamp query parameter to prevent caching
+    const timestamp = new Date().getTime()
+    const imageUrl = `https://source.unsplash.com/random/1920x1080?t=${timestamp}`
     setBackgroundImage(imageUrl)
+  }
+
+  useEffect(() => {
+    // Get a random image URL on component mount
+    getRandomImage()
     
     // Check if user is already logged in from localStorage
     const savedUser = localStorage.getItem('user')
@@ -80,6 +86,7 @@ function App() {
               setCount={setCount}
               backgroundImage={backgroundImage}
               userName={user ? 'Google User' : 'User'}
+              onChangeBackground={getRandomImage}
             />
           )}
           

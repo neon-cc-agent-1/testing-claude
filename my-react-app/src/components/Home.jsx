@@ -1,7 +1,7 @@
 import reactLogo from '../assets/react.svg'
 import '../App.css'
 
-function Home({ count, setCount, backgroundImage }) {
+function Home({ count, setCount, backgroundImage, userName, onChangeBackground }) {
   return (
     <div className="hero" style={{ backgroundImage: `url(${backgroundImage})` }}>
       <div>
@@ -9,7 +9,7 @@ function Home({ count, setCount, backgroundImage }) {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1>React</h1>
+      <h1>Welcome, {userName}</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -21,6 +21,9 @@ function Home({ count, setCount, backgroundImage }) {
       <p className="read-the-docs">
         Click on the React logo to learn more
       </p>
+      <button className="change-background" onClick={onChangeBackground}>
+        Change Background
+      </button>
     </div>
   )
 }

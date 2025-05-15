@@ -55,3 +55,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.change-background {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background-color: rgba(97, 218, 251, 0.8);
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s;
+}
+
+.change-background:hover {
+  background-color: rgba(97, 218, 251, 1);
+}
