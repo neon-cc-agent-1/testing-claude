@@ -3,11 +3,13 @@ import './App.css'
 import Navbar from './components/Navbar'
 import Home from './components/Home'
 import FAQ from './components/FAQ'
+import Login from './components/Login'
 
 function App() {
   const [count, setCount] = useState(0)
   const [backgroundImage, setBackgroundImage] = useState('')
   const [activePage, setActivePage] = useState('home')
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
 
   useEffect(() => {
     // Get a random image URL
@@ -17,7 +19,7 @@ function App() {
 
   return (
     <>
-      <Navbar activePage={activePage} onChangePage={setActivePage} />
+      <Navbar activePage={activePage} onChangePage={setActivePage} isLoggedIn={isLoggedIn} />
       
       {activePage === 'home' && (
         <Home 
@@ -28,6 +30,8 @@ function App() {
       )}
       
       {activePage === 'faq' && <FAQ />}
+      
+      {activePage === 'login' && <Login onLoginSuccess={() => setIsLoggedIn(true)} />}
     </>
   )
 }
