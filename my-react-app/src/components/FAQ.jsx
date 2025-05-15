@@ -22,6 +22,10 @@ function FAQ() {
       answer: "JSX is a syntax extension for JavaScript that looks similar to HTML. It allows you to write HTML-like code in your JavaScript files."
     },
     {
+      question: "What is CSS?",
+      answer: "CSS (Cascading Style Sheets) is a style sheet language used for describing the presentation of a document written in HTML. CSS describes how elements should be rendered on screen, on paper, or in other media."
+    },
+    {
       question: "What are React Hooks?",
       answer: "Hooks are functions that let you use state and other React features without writing a class. The most commonly used hooks are useState and useEffect."
     },
