@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import Navbar from './components/Navbar'
+import Home from './components/Home'
+import FAQ from './components/FAQ'
 
 function App() {
   const [count, setCount] = useState(0)
   const [backgroundImage, setBackgroundImage] = useState('')
+  const [activePage, setActivePage] = useState('home')
 
   useEffect(() => {
     // Get a random image URL
@@ -14,25 +17,17 @@ function App() {
 
   return (
     <>
-      <div className="hero" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <div>
-          <a href="https://react.dev" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-        <h1>React</h1>
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test HMR
-          </p>
-        </div>
-        <p className="read-the-docs">
-          Click on the React logo to learn more
-        </p>
-      </div>
+      <Navbar activePage={activePage} onChangePage={setActivePage} />
+      
+      {activePage === 'home' && (
+        <Home 
+          count={count} 
+          setCount={setCount}
+          backgroundImage={backgroundImage}
+        />
+      )}
+      
+      {activePage === 'faq' && <FAQ />}
     </>
   )
 }
