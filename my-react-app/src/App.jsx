@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react'
 import { googleLogout } from '@react-oauth/google'
-import reactLogo from './assets/react.svg'
 import './App.css'
+import Navbar from './components/Navbar'
+import Home from './components/Home'
+import FAQ from './components/FAQ'
 import Login from './components/Login'
 
 function App() {
   const [count, setCount] = useState(0)
   const [backgroundImage, setBackgroundImage] = useState('')
+  const [activePage, setActivePage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
-  // Using underscore prefix for unused variable to satisfy linter
-  const [_user, setUser] = useState(null)
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
     // Get a random image URL
@@ -56,37 +58,36 @@ function App() {
     
     // Remove from localStorage
     localStorage.removeItem('user')
-  }
-
-  if (!isLoggedIn) {
-    return <Login onLogin={handleLogin} />
+    
+    // Return to login page
+    setActivePage('login')
   }
 
   return (
     <>
-      <div className="hero" style={{ backgroundImage: `url(${backgroundImage})` }}>
-        <div className="user-welcome">
-          <p>Welcome back, Google user!</p>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-        <div>
-          <a href="https://react.dev" target="_blank" rel="noreferrer">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div>
-        <h1>React</h1>
-        <div className="card">
-          <button onClick={() => setCount((count) => count + 1)}>
-            count is {count}
-          </button>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test HMR
-          </p>
-        </div>
-        <p className="read-the-docs">
-          Click on the React logo to learn more
-        </p>
-      </div>
+      <Navbar 
+        activePage={activePage} 
+        onChangePage={setActivePage} 
+        isLoggedIn={isLoggedIn} 
+        onLogout={handleLogout}
+      />
+      
+      {isLoggedIn ? (
+        <>
+          {activePage === 'home' && (
+            <Home 
+              count={count} 
+              setCount={setCount}
+              backgroundImage={backgroundImage}
+              userName={user ? 'Google User' : 'User'}
+            />
+          )}
+          
+          {activePage === 'faq' && <FAQ />}
+        </>
+      ) : (
+        <Login onLogin={handleLogin} onLoginSuccess={() => setIsLoggedIn(true)} />
+      )}
     </>
   )
 }
