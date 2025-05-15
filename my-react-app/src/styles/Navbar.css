@@ -54,6 +54,16 @@
   background-color: #646cff;
 }
 
+.navbar-links li.logout-btn {
+  color: #e74c3c;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-links li.logout-btn:hover {
+  color: #c0392b;
+}
+
 .menu-toggle {
   display: none;
   background: none;

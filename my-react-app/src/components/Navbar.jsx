@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import '../styles/Navbar.css'
 
-function Navbar({ activePage, onChangePage }) {
+function Navbar({ activePage, onChangePage, isLoggedIn, onLogout }) {
   const [isOpen, setIsOpen] = useState(false)
   
   const toggleMenu = () => {
@@ -35,6 +35,18 @@ function Navbar({ activePage, onChangePage }) {
         >
           FAQ
         </li>
+        {isLoggedIn ? (
+          <li className="logout-btn" onClick={onLogout}>
+            Logout
+          </li>
+        ) : (
+          <li 
+            className={activePage === 'login' ? 'active' : ''}
+            onClick={() => handlePageChange('login')}
+          >
+            Login
+          </li>
+        )}
       </ul>
     </nav>
   )
