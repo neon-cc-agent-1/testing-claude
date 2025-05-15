@@ -22,6 +22,10 @@ function FAQ() {
       answer: "Vite (French word for \"quick\", pronounced /vit/) is a modern frontend build tool that significantly improves the frontend development experience. It provides a faster development server with hot module replacement and optimized production builds using Rollup. Vite is designed to work seamlessly with frameworks like React, Vue, and others."
     },
     {
+      question: "What is JavaScript?",
+      answer: "JavaScript is a programming language that enables interactive web pages. It's an essential part of web applications, running on the client side of the web browser, and allows developers to implement complex features like interactive maps, animated graphics, and responsive form validation."
+    },
+    {
       question: "What is JSX?",
       answer: "JSX is a syntax extension for JavaScript that looks similar to HTML. It allows you to write HTML-like code in your JavaScript files."
     },
