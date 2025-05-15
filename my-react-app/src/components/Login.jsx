@@ -76,8 +76,26 @@ function Login({ onLogin, onLoginSuccess }) {
       // In a real app, you would verify the token on your backend
       console.log('Google login successful:', credentialResponse)
       
-      // Pass the response to the parent component
-      if (onLogin) onLogin(credentialResponse)
+      // Decode the JWT to get user information (in a production app, verify on server side)
+      if (credentialResponse.credential) {
+        const base64Url = credentialResponse.credential.split('.')[1]
+        const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/')
+        const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
+        }).join(''))
+        
+        const decodedToken = JSON.parse(jsonPayload)
+        console.log('Decoded token:', decodedToken)
+        
+        // Include user profile data when calling onLogin
+        if (onLogin) onLogin({
+          ...credentialResponse,
+          profile: decodedToken
+        })
+      } else {
+        // Fallback if no credential
+        if (onLogin) onLogin(credentialResponse)
+      }
       
       setError('')
     } catch (err) {
