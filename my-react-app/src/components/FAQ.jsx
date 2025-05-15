@@ -14,6 +14,10 @@ function FAQ() {
       answer: "React makes it easy to create interactive UIs, efficiently updates components when data changes, and is component-based for better code reusability."
     },
     {
+      question: "What is Vite?",
+      answer: "Vite (French word for \"quick\", pronounced /vit/) is a modern frontend build tool that significantly improves the frontend development experience. It provides a faster development server with hot module replacement and optimized production builds using Rollup. Vite is designed to work seamlessly with frameworks like React, Vue, and others."
+    },
+    {
       question: "What is JSX?",
       answer: "JSX is a syntax extension for JavaScript that looks similar to HTML. It allows you to write HTML-like code in your JavaScript files."
     },
