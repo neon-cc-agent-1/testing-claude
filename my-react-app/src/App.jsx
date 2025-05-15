@@ -33,16 +33,20 @@ function App() {
   }, [])
 
   const handleLogin = (response) => {
-    // In a real app, you would process the credential response here
-    // and extract user information after verification
-    const userData = { 
+    // Process the credential response
+    const userData = {
       id: response.clientId,
       credential: response.credential,
+      profile: response.profile || null,
       loginTime: new Date().toISOString()
     }
     
-    // Save user data to localStorage
-    localStorage.setItem('user', JSON.stringify(userData))
+    // Save user data to localStorage (excluding the credential for security)
+    const userDataForStorage = {
+      ...userData,
+      credential: undefined // Don't store the actual token
+    }
+    localStorage.setItem('user', JSON.stringify(userDataForStorage))
     
     setUser(userData)
     setIsLoggedIn(true)
@@ -79,7 +83,7 @@ function App() {
               count={count} 
               setCount={setCount}
               backgroundImage={backgroundImage}
-              userName={user ? 'Google User' : 'User'}
+              userName={user?.profile?.name || 'User'}
             />
           )}
           
