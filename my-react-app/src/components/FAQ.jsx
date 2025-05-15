@@ -14,6 +14,10 @@ function FAQ() {
       answer: "React makes it easy to create interactive UIs, efficiently updates components when data changes, and is component-based for better code reusability."
     },
     {
+      question: "What is JavaScript?",
+      answer: "JavaScript is a programming language that enables interactive web pages. It's an essential part of web applications, allowing for dynamic content, interactive forms, animations, and much more. JavaScript runs on the client-side of the web, which can be used to design/program how web pages behave on the occurrence of an event."
+    },
+    {
       question: "What is Vite?",
       answer: "Vite (French word for \"quick\", pronounced /vit/) is a modern frontend build tool that significantly improves the frontend development experience. It provides a faster development server with hot module replacement and optimized production builds using Rollup. Vite is designed to work seamlessly with frameworks like React, Vue, and others."
     },
