@@ -6,6 +6,14 @@ function FAQ() {
 
   const faqs = [
     {
+      question: "What is Python?",
+      answer: "Python is a high-level, interpreted programming language known for its readability and simple syntax. It supports multiple programming paradigms including procedural, object-oriented, and functional programming. Python's comprehensive standard library, dynamic typing, and interpreted nature make it popular for web development, data analysis, artificial intelligence, scientific computing, and automation."
+    },
+    {
+      question: "What is TypeScript?",
+      answer: "TypeScript is a strongly typed programming language that builds on JavaScript by adding static type definitions. Types provide a way to describe the shape of an object, providing better documentation, and allowing TypeScript to validate that your code is working correctly. It is developed and maintained by Microsoft, compiles to plain JavaScript, and can be used for both client-side and server-side applications."
+    },
+    {
       question: "What is C++?",
       answer: "C++ is a high-performance, general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language. It supports object-oriented, procedural, and generic programming paradigms, and is widely used for developing operating systems, game engines, desktop applications, and performance-critical software."
     },
