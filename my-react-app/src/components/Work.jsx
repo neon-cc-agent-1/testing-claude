@@ -5,6 +5,7 @@ import LazyImage from './LazyImage';
 function Work() {
   const [selectedFilter, setSelectedFilter] = useState('AI');
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [showError, setShowError] = useState(false);
   
   const projects = [
     {
@@ -77,10 +78,31 @@ function Work() {
     setSelectedFilter(category);
   };
 
+  // This function will deliberately throw an error when called
+  const triggerError = () => {
+    throw new Error('This is a simulated internal server error for testing the ErrorBoundary component');
+  };
+
+  // If showError is true, this will cause the component to crash
+  if (showError) {
+    triggerError();
+  }
+
   return (
     <div className="work-container">
       <h1>My Projects</h1>
       <p className="work-intro">Here's a collection of projects I've worked on, showcasing various technologies and skills.</p>
+      
+      <div className="error-test-section">
+        <h2>Error Testing</h2>
+        <p>Click the button below to simulate an internal server error and test error handling:</p>
+        <button 
+          className="error-button" 
+          onClick={() => setShowError(true)}
+        >
+          Simulate Server Error
+        </button>
+      </div>
       
       <div className="filter-controls">
         <p>Filter by category:</p>
