@@ -1,0 +1,38 @@
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: 2rem;
+  text-align: center;
+}
+
+.error-container h1 {
+  font-size: 8rem;
+  margin: 0 auto; /* Using auto margins for better centering */
+  color: #e74c3c;
+  text-align: center; /* Ensuring h1 is centered */
+  width: 100%; /* Full width to ensure proper centering */
+  display: block; /* Ensures block-level display */
+}
+
+.error-container p {
+  font-size: 1.5rem;
+  margin: 1rem 0 2rem;
+}
+
+.error-container button {
+  background-color: #3498db;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.error-container button:hover {
+  background-color: #2980b9;
+}
