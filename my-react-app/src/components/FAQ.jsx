@@ -14,6 +14,14 @@ function FAQ() {
       answer: "Xamarin is a Microsoft-owned cross-platform mobile app development framework that allows developers to build native Android, iOS, and Windows apps using C# and .NET. It provides a single shared codebase, native UI controls, and direct access to native APIs, enabling developers to create apps with native performance and look-and-feel while sharing business logic across platforms."
     },
     {
+      question: "What is Node.js?",
+      answer: "Node.js is an open-source, cross-platform JavaScript runtime environment that executes JavaScript code outside of a web browser. It allows developers to use JavaScript for server-side scripting, enabling the creation of scalable network applications. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient, particularly well-suited for data-intensive real-time applications that run across distributed devices."
+    },
+    {
+      question: "What is React?",
+      answer: "React is a JavaScript library for building user interfaces, developed by Facebook. It allows developers to create reusable UI components that efficiently update when data changes through its virtual DOM implementation. React follows a component-based architecture and uses a declarative approach to describe how the UI should look based on the current state, making it easier to reason about application behavior."
+    },
+    {
       question: "What is the stack in programming?",
       answer: "The stack is a region of memory that stores temporary variables created by each function. Variables are declared, stored, and initialized during runtime. When a function is called, its variables are pushed onto the stack, and when the function exits, they are popped off. The stack has a fixed size and operates in a Last-In-First-Out (LIFO) manner."
     },
