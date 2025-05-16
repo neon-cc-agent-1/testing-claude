@@ -1,21 +1,35 @@
-import React from 'react'
+import { memo, useCallback, useMemo } from 'react'
 import reactLogo from '../assets/react.svg'
 import '../App.css'
 import LazyImage from './LazyImage'
 import LazyBackground from './LazyBackground'
 
+// Memoized button component to prevent unnecessary re-renders
+const CountButton = memo(({ count, onClick }) => (
+  <button onClick={onClick}>
+    count is {count}
+  </button>
+))
+
 function Home({ count, setCount, backgroundImage }) {
+  const incrementCount = useCallback(() => {
+    setCount(prevCount => prevCount + 1)
+  }, [setCount])
+
+  // Memoize background style to prevent recreation on each render
+  const backgroundStyle = useMemo(() => ({ 
+    backgroundSize: 'cover',
+    backgroundPosition: 'center'
+  }), [])
+
   return (
     <LazyBackground 
       src={backgroundImage} 
       className="hero"
-      style={{ 
-        backgroundSize: 'cover',
-        backgroundPosition: 'center'
-      }}
+      style={backgroundStyle}
     >
       <div>
-        <a href="https://react.dev" target="_blank">
+        <a href="https://react.dev" target="_blank" rel="noopener noreferrer" prefetch="intent">
           <LazyImage 
             src={reactLogo} 
             className="logo react" 
@@ -28,9 +42,7 @@ function Home({ count, setCount, backgroundImage }) {
       </div>
       <h1>React</h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+        <CountButton count={count} onClick={incrementCount} />
         <p>
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
@@ -42,4 +54,4 @@ function Home({ count, setCount, backgroundImage }) {
   )
 }
 
-export default Home
+export default memo(Home)

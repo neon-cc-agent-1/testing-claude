@@ -1,67 +1,91 @@
-import { useState } from 'react'
+import { useState, memo, useCallback, useMemo } from 'react'
 import '../styles/Navbar.css'
+
+// Memoized navbar item to prevent unnecessary re-renders
+const NavItem = memo(({ label, isActive, onClick }) => (
+  <li className={isActive ? 'active' : ''} onClick={onClick}>
+    {label}
+  </li>
+))
 
 function Navbar({ activePage, onChangePage, isLoggedIn, onLogout }) {
   const [isOpen, setIsOpen] = useState(false)
   
-  const toggleMenu = () => {
-    setIsOpen(!isOpen)
-  }
+  const toggleMenu = useCallback(() => {
+    setIsOpen(prevState => !prevState)
+  }, [])
 
-  const handlePageChange = (page) => {
+  const handlePageChange = useCallback((page) => {
     onChangePage(page)
     setIsOpen(false)
-  }
+  }, [onChangePage])
+  
+  // Pre-bind page change handlers to avoid inline function creation
+  const pageHandlers = useMemo(() => {
+    return {
+      home: () => handlePageChange('home'),
+      faq: () => handlePageChange('faq'),
+      gallery: () => handlePageChange('gallery'),
+      work: () => handlePageChange('work'),
+      login: () => handlePageChange('login')
+    }
+  }, [handlePageChange])
+
+  // Determine nav classes once to avoid string concatenation in render
+  const navLinksClass = useMemo(() => 
+    `navbar-links ${isOpen ? 'open' : ''}`, 
+    [isOpen]
+  )
+  
+  const menuIconClass = useMemo(() => 
+    `menu-icon ${isOpen ? 'open' : ''}`, 
+    [isOpen]
+  )
 
   return (
     <nav className="navbar">
       <div className="navbar-brand">
         <span>React Demo</span>
         <button className="menu-toggle" onClick={toggleMenu}>
-          <span className={`menu-icon ${isOpen ? 'open' : ''}`}></span>
+          <span className={menuIconClass}></span>
         </button>
       </div>
       
-      <ul className={`navbar-links ${isOpen ? 'open' : ''}`}>
-        <li 
-          className={activePage === 'home' ? 'active' : ''}
-          onClick={() => handlePageChange('home')}
-        >
-          Home
-        </li>
-        <li 
-          className={activePage === 'faq' ? 'active' : ''}
-          onClick={() => handlePageChange('faq')}
-        >
-          FAQ
-        </li>
-        <li 
-          className={activePage === 'gallery' ? 'active' : ''}
-          onClick={() => handlePageChange('gallery')}
-        >
-          Gallery
-        </li>
-        <li 
-          className={activePage === 'work' ? 'active' : ''}
-          onClick={() => handlePageChange('work')}
-        >
-          Work
-        </li>
+      <ul className={navLinksClass}>
+        <NavItem 
+          label="Home"
+          isActive={activePage === 'home'}
+          onClick={pageHandlers.home}
+        />
+        <NavItem 
+          label="FAQ"
+          isActive={activePage === 'faq'}
+          onClick={pageHandlers.faq}
+        />
+        <NavItem 
+          label="Gallery"
+          isActive={activePage === 'gallery'}
+          onClick={pageHandlers.gallery}
+        />
+        <NavItem 
+          label="Work"
+          isActive={activePage === 'work'}
+          onClick={pageHandlers.work}
+        />
         {isLoggedIn ? (
           <li className="logout-btn" onClick={onLogout}>
             Logout
           </li>
         ) : (
-          <li 
-            className={activePage === 'login' ? 'active' : ''}
-            onClick={() => handlePageChange('login')}
-          >
-            Login
-          </li>
+          <NavItem 
+            label="Login"
+            isActive={activePage === 'login'}
+            onClick={pageHandlers.login}
+          />
         )}
       </ul>
     </nav>
   )
 }
 
-export default Navbar
+export default memo(Navbar)

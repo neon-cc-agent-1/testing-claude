@@ -1,8 +1,23 @@
-import React from 'react';
+import { memo, useMemo } from 'react';
 import '../styles/About.css';
 
+// Memoized testimonial card component
+const TestimonialCard = memo(({ testimonial }) => (
+  <div className="testimonial-card" key={testimonial.id}>
+    <div className="testimonial-avatar">
+      <img src={testimonial.avatar} alt={`${testimonial.name} avatar`} />
+    </div>
+    <div className="testimonial-content">
+      <p className="testimonial-text">{testimonial.text}</p>
+      <p className="testimonial-author">{testimonial.name}</p>
+      <p className="testimonial-role">{testimonial.role}</p>
+    </div>
+  </div>
+));
+
 function About() {
-  const testimonials = [
+  // Using useMemo to prevent recreation of the testimonials array on each render
+  const testimonials = useMemo(() => [
     {
       id: 1,
       name: "Jane Doe",
@@ -14,7 +29,7 @@ function About() {
       id: 2,
       name: "John Smith",
       role: "Developer",
-      text: "As a developer, I appreciate the clean code and intuitive design. Makes my job so much easier\!",
+      text: "As a developer, I appreciate the clean code and intuitive design. Makes my job so much easier!",
       avatar: "https://randomimages.org/api/random?width=100&height=100&id=2"
     },
     {
@@ -45,7 +60,14 @@ function About() {
       text: "This platform helped us launch faster and with higher quality than we thought possible with our limited resources.",
       avatar: "https://randomimages.org/api/random?width=100&height=100&id=6"
     }
-  ];
+  ], []);
+
+  // Memoize testimonial cards to prevent unnecessary re-renders
+  const testimonialCards = useMemo(() => {
+    return testimonials.map(testimonial => (
+      <TestimonialCard key={testimonial.id} testimonial={testimonial} />
+    ));
+  }, [testimonials]);
 
   return (
     <div className="about-container">
@@ -69,18 +91,7 @@ function About() {
             <p>Our clients and partners love working with us. Here's what they have to say about their experience:</p>
           </div>
           <div className="testimonials-grid">
-            {testimonials.map(testimonial => (
-              <div className="testimonial-card" key={testimonial.id}>
-                <div className="testimonial-avatar">
-                  <img src={testimonial.avatar} alt={`${testimonial.name} avatar`} />
-                </div>
-                <div className="testimonial-content">
-                  <p className="testimonial-text">{testimonial.text}</p>
-                  <p className="testimonial-author">{testimonial.name}</p>
-                  <p className="testimonial-role">{testimonial.role}</p>
-                </div>
-              </div>
-            ))}
+            {testimonialCards}
           </div>
         </div>
       </section>
@@ -88,5 +99,4 @@ function About() {
   );
 }
 
-export default About;
-EOL < /dev/null
+export default memo(About);
