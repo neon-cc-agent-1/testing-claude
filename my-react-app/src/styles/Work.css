@@ -19,6 +19,38 @@
   color: #555;
 }
 
+.error-test-section {
+  max-width: 800px;
+  margin: 0 auto 2rem;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px dashed #dc3545;
+}
+
+.error-test-section h2 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.error-button {
+  padding: 0.7rem 1.5rem;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 1rem;
+}
+
+.error-button:hover {
+  background-color: #c82333;
+}
+
 /* Filter Controls */
 .filter-controls {
   margin-bottom: 3rem;

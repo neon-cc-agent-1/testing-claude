@@ -1,12 +1,13 @@
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect } from 'react'
 import { googleLogout } from '@react-oauth/google'
 import './App.css'
-import Navbar from './components/Navbar'
+import DefaultLayout from './layouts/DefaultLayout'
 import Home from './components/Home'
 import FAQ from './components/FAQ'
 import Login from './components/Login'
 import Gallery from './components/Gallery'
 import Work from './components/Work'
+import ErrorBoundary from './components/ErrorBoundary'
 
 // We can use React.lazy for code splitting and lazy loading components
 // Example: const LazyFAQ = lazy(() => import('./components/FAQ'));
@@ -73,42 +74,42 @@ function App() {
 
   return (
     <div className="app-container">
-      <Navbar 
-        activePage={activePage} 
-        onChangePage={setActivePage} 
-        isLoggedIn={isLoggedIn} 
-        onLogout={handleLogout}
-      />
-      
-      <Suspense fallback={<div>Loading...</div>}>
-        {isLoggedIn ? (
-          <>
-            {activePage === 'home' && (
-              <Home 
-                count={count} 
-                setCount={setCount}
-                backgroundImage={backgroundImage}
-                userName={user ? 'Google User' : 'User'}
-              />
-            )}
-            
-            {/* Here we could use lazy loading with React.lazy if needed */}
-            {activePage === 'faq' && <FAQ />}
-            
-            {activePage === 'gallery' && <Gallery />}
-            
-            {activePage === 'work' && <Work />}
-          </>
-        ) : (
-          <>
-            {activePage === 'gallery' ? (
-              <Gallery />
-            ) : (
-              <Login onLogin={handleLogin} onLoginSuccess={() => setIsLoggedIn(true)} />
-            )}
-          </>
-        )}
-      </Suspense>
+      <DefaultLayout
+        activePage={activePage}
+        setActivePage={setActivePage}
+        isLoggedIn={isLoggedIn}
+        handleLogout={handleLogout}
+      >
+        <ErrorBoundary showDetails={import.meta.env.DEV}>
+          {isLoggedIn ? (
+            <>
+              {activePage === 'home' && (
+                <Home 
+                  count={count} 
+                  setCount={setCount}
+                  backgroundImage={backgroundImage}
+                  userName={user ? 'Google User' : 'User'}
+                />
+              )}
+              
+              {/* Here we could use lazy loading with React.lazy if needed */}
+              {activePage === 'faq' && <FAQ />}
+              
+              {activePage === 'gallery' && <Gallery />}
+              
+              {activePage === 'work' && <Work />}
+            </>
+          ) : (
+            <>
+              {activePage === 'gallery' ? (
+                <Gallery />
+              ) : (
+                <Login onLogin={handleLogin} onLoginSuccess={() => setIsLoggedIn(true)} />
+              )}
+            </>
+          )}
+        </ErrorBoundary>
+      </DefaultLayout>
     </div>
   )
 }
