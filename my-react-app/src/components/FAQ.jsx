@@ -10,6 +10,10 @@ function FAQ() {
       answer: "C++ is a high-performance, general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language. It supports object-oriented, procedural, and generic programming paradigms, and is widely used for developing operating systems, game engines, desktop applications, and performance-critical software."
     },
     {
+      question: "What is Xamarin?",
+      answer: "Xamarin is a Microsoft-owned cross-platform mobile app development framework that allows developers to build native Android, iOS, and Windows apps using C# and .NET. It provides a single shared codebase, native UI controls, and direct access to native APIs, enabling developers to create apps with native performance and look-and-feel while sharing business logic across platforms."
+    },
+    {
       question: "What is the stack in programming?",
       answer: "The stack is a region of memory that stores temporary variables created by each function. Variables are declared, stored, and initialized during runtime. When a function is called, its variables are pushed onto the stack, and when the function exits, they are popped off. The stack has a fixed size and operates in a Last-In-First-Out (LIFO) manner."
     },
