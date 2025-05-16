@@ -6,36 +6,64 @@ function FAQ() {
 
   const faqs = [
     {
-      question: "What is React?",
-      answer: "React is a JavaScript library for building user interfaces. It's maintained by Meta and a community of individual developers and companies."
+      question: "What is the stack in programming?",
+      answer: "The stack is a region of memory that stores temporary variables created by each function. Variables are declared, stored, and initialized during runtime. When a function is called, its variables are pushed onto the stack, and when the function exits, they are popped off. The stack has a fixed size and operates in a Last-In-First-Out (LIFO) manner."
     },
     {
-      question: "Why use React?",
-      answer: "React makes it easy to create interactive UIs, efficiently updates components when data changes, and is component-based for better code reusability."
+      question: "What is the heap in programming?",
+      answer: "The heap is a region of memory used for dynamic memory allocation. Unlike the stack, memory in the heap is not automatically managed and can be accessed globally. Objects allocated on the heap have no dependencies with the values below them on the stack, and their lifetimes are not tied to the scope in which they were created. The heap has no size restrictions but may become fragmented."
     },
     {
-      question: "What is JavaScript?",
-      answer: "JavaScript is a programming language that enables interactive web pages. It's an essential part of web applications, allowing for dynamic content, interactive forms, animations, and much more. JavaScript runs on the client-side of the web, which can be used to design/program how web pages behave on the occurrence of an event."
+      question: "What is a pointer?",
+      answer: "A pointer is a variable that stores the memory address of another variable. Pointers are used to indirectly access variables, dynamically allocate memory, efficiently pass large data structures to functions, and implement complex data structures like linked lists and trees."
     },
     {
-      question: "What is Vite?",
-      answer: "Vite (French word for \"quick\", pronounced /vit/) is a modern frontend build tool that significantly improves the frontend development experience. It provides a faster development server with hot module replacement and optimized production builds using Rollup. Vite is designed to work seamlessly with frameworks like React, Vue, and others."
+      question: "What is a data structure?",
+      answer: "A data structure is a specialized format for organizing, processing, retrieving, and storing data. Common data structures include arrays, linked lists, stacks, queues, trees, graphs, hash tables, heaps, and sets. The choice of data structure impacts the efficiency of algorithms that use it."
     },
     {
-      question: "What is JSX?",
-      answer: "JSX is a syntax extension for JavaScript that looks similar to HTML. It allows you to write HTML-like code in your JavaScript files."
+      question: "What is an algorithm?",
+      answer: "An algorithm is a step-by-step procedure or formula for solving a problem. In programming, algorithms are the core processes for computation and data processing. Examples include sorting algorithms (quicksort, merge sort), search algorithms (binary search), and graph algorithms (Dijkstra's algorithm)."
     },
     {
-      question: "What is CSS?",
-      answer: "CSS (Cascading Style Sheets) is a style sheet language used for describing the presentation of a document written in HTML. CSS describes how elements should be rendered on screen, on paper, or in other media."
+      question: "What is time complexity?",
+      answer: "Time complexity is a measure of the amount of time an algorithm takes to run as a function of the input size. It's commonly expressed using Big O notation, such as O(1) for constant time, O(log n) for logarithmic time, O(n) for linear time, O(n log n) for linearithmic time, and O(n²) for quadratic time."
     },
     {
-      question: "What are React Hooks?",
-      answer: "Hooks are functions that let you use state and other React features without writing a class. The most commonly used hooks are useState and useEffect."
+      question: "What is space complexity?",
+      answer: "Space complexity is a measure of the amount of memory an algorithm or data structure requires relative to the input size. Like time complexity, it's often expressed using Big O notation. Space complexity includes both auxiliary space (extra space used by the algorithm) and the space needed to store the input."
     },
     {
-      question: "How do I install React?",
-      answer: "You can start a new React project using tools like Create React App, Vite, or Next.js. For example, with Vite you can run: npm create vite@latest my-app -- --template react"
+      question: "What is recursion?",
+      answer: "Recursion is a programming technique where a function calls itself to solve a problem. A recursive function typically has a base case that stops the recursion and a recursive case that breaks the problem into smaller instances. While elegant for certain problems like tree traversals, recursion can lead to stack overflow errors if not properly implemented."
+    },
+    {
+      question: "What is object-oriented programming?",
+      answer: "Object-oriented programming (OOP) is a programming paradigm based on the concept of 'objects' that contain data (attributes) and code (methods). The four main principles of OOP are encapsulation (bundling data and methods), inheritance (creating new classes from existing ones), polymorphism (objects taking different forms), and abstraction (hiding implementation details)."
+    },
+    {
+      question: "What is functional programming?",
+      answer: "Functional programming is a programming paradigm that treats computation as the evaluation of mathematical functions and avoids changing state and mutable data. It emphasizes expressions rather than statements, immutability, first-class and higher-order functions, and recursion instead of iteration."
+    },
+    {
+      question: "What is a compiler?",
+      answer: "A compiler is a software program that translates source code written in a high-level programming language into machine code, intermediate code, or another target language. The compilation process typically includes lexical analysis, syntax analysis, semantic analysis, code optimization, and code generation."
+    },
+    {
+      question: "What is an interpreter?",
+      answer: "An interpreter is a program that directly executes instructions written in a programming language without requiring them to be compiled into machine language first. Interpreters process and execute the program line by line, making debugging easier but typically running slower than compiled code."
+    },
+    {
+      question: "What is garbage collection?",
+      answer: "Garbage collection is an automatic memory management process that reclaims memory occupied by objects that are no longer in use by the program. It relieves programmers from manually freeing allocated memory, preventing memory leaks. Common strategies include reference counting, mark-and-sweep, and generational collection algorithms."
+    },
+    {
+      question: "What is a closure in programming?",
+      answer: "A closure is a function that has access to variables from its outer (enclosing) lexical scope, even after the outer function has returned. Closures 'close over' the variables they need, preserving access to them. They're commonly used for data encapsulation, creating private variables, and in callback functions."
+    },
+    {
+      question: "What is the difference between compiled and interpreted languages?",
+      answer: "Compiled languages (like C++ and Rust) translate code to machine code before execution, resulting in faster performance but platform-specific executables. Interpreted languages (like Python and JavaScript) translate code at runtime line-by-line, offering more flexibility and platform independence but typically slower execution. Some languages use a hybrid approach with just-in-time compilation."
     }
   ]
 
@@ -45,7 +73,7 @@ function FAQ() {
 
   return (
     <div className="faq-container">
-      <h2>Frequently Asked Questions</h2>
+      <h2>Programming Q&A</h2>
       <div className="faq-list">
         {faqs.map((faq, index) => (
           <div 
