@@ -1,22 +1,29 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { googleLogout } from '@react-oauth/google'
 import './App.css'
 import Navbar from './components/Navbar'
 import Home from './components/Home'
 import FAQ from './components/FAQ'
 import Login from './components/Login'
+import Gallery from './components/Gallery'
+
+// We can use React.lazy for code splitting and lazy loading components
+// Example: const LazyFAQ = lazy(() => import('./components/FAQ'));
 
 function App() {
   const [count, setCount] = useState(0)
-  const [backgroundImage, setBackgroundImage] = useState('')
+  const [backgroundImage, setBackgroundImage] = useState(null)
   const [activePage, setActivePage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Get a random image URL
-    const imageUrl = 'https://randomimages.org/api/random?width=1920&height=1080'
-    setBackgroundImage(imageUrl)
+    // Get a random image URL - only if we're on the home page
+    if (activePage === 'home' && isLoggedIn && !backgroundImage) {
+      // Using picsum.photos which is a safe image service
+      const imageUrl = 'https://picsum.photos/1920/1080'
+      setBackgroundImage(imageUrl)
+    }
     
     // Check if user is already logged in from localStorage
     const savedUser = localStorage.getItem('user')
@@ -30,7 +37,7 @@ function App() {
         localStorage.removeItem('user')
       }
     }
-  }, [])
+  }, [activePage, isLoggedIn, backgroundImage])
 
   const handleLogin = (response) => {
     // In a real app, you would process the credential response here
@@ -64,7 +71,7 @@ function App() {
   }
 
   return (
-    <>
+    <div className="app-container">
       <Navbar 
         activePage={activePage} 
         onChangePage={setActivePage} 
@@ -72,23 +79,34 @@ function App() {
         onLogout={handleLogout}
       />
       
-      {isLoggedIn ? (
-        <>
-          {activePage === 'home' && (
-            <Home 
-              count={count} 
-              setCount={setCount}
-              backgroundImage={backgroundImage}
-              userName={user ? 'Google User' : 'User'}
-            />
-          )}
-          
-          {activePage === 'faq' && <FAQ />}
-        </>
-      ) : (
-        <Login onLogin={handleLogin} onLoginSuccess={() => setIsLoggedIn(true)} />
-      )}
-    </>
+      <Suspense fallback={<div>Loading...</div>}>
+        {isLoggedIn ? (
+          <>
+            {activePage === 'home' && (
+              <Home 
+                count={count} 
+                setCount={setCount}
+                backgroundImage={backgroundImage}
+                userName={user ? 'Google User' : 'User'}
+              />
+            )}
+            
+            {/* Here we could use lazy loading with React.lazy if needed */}
+            {activePage === 'faq' && <FAQ />}
+            
+            {activePage === 'gallery' && <Gallery />}
+          </>
+        ) : (
+          <>
+            {activePage === 'gallery' ? (
+              <Gallery />
+            ) : (
+              <Login onLogin={handleLogin} onLoginSuccess={() => setIsLoggedIn(true)} />
+            )}
+          </>
+        )}
+      </Suspense>
+    </div>
   )
 }
 

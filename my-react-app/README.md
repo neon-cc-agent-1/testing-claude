@@ -7,7 +7,7 @@ This project is a React application built with Vite that includes Google Sign-In
 - Modern React application setup with Vite
 - Google Sign-In authentication
 - Responsive login page
-- Persistent authentication using localStorage
+- Session-based authentication using sessionStorage
 
 ## Getting Started
 
