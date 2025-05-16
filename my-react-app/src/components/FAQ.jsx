@@ -6,6 +6,10 @@ function FAQ() {
 
   const faqs = [
     {
+      question: "What is C#?",
+      answer: "C# (pronounced C-sharp) is a modern, object-oriented programming language developed by Microsoft as part of its .NET initiative. It combines the power of C++ with the simplicity of Visual Basic and draws significant inspiration from Java. C# is used for developing web applications, desktop applications, mobile apps, games (particularly with Unity), cloud services, and enterprise software primarily on the Windows platform."
+    },
+    {
       question: "What is C++?",
       answer: "C++ is a high-performance, general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language. It supports object-oriented, procedural, and generic programming paradigms, and is widely used for developing operating systems, game engines, desktop applications, and performance-critical software."
     },
