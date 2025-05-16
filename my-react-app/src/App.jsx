@@ -14,9 +14,12 @@ function App() {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Get a random image URL
-    const imageUrl = 'https://randomimages.org/api/random?width=1920&height=1080'
-    setBackgroundImage(imageUrl)
+    // Get a random image URL - only if we're on the home page
+    if (activePage === 'home' && isLoggedIn && !backgroundImage) {
+      // Using picsum.photos which is a safe image service
+      const imageUrl = 'https://picsum.photos/1920/1080'
+      setBackgroundImage(imageUrl)
+    }
     
     // Check if user is already logged in from localStorage
     const savedUser = localStorage.getItem('user')
@@ -30,7 +33,7 @@ function App() {
         localStorage.removeItem('user')
       }
     }
-  }, [])
+  }, [activePage, isLoggedIn, backgroundImage])
 
   const handleLogin = (response) => {
     // In a real app, you would process the credential response here
