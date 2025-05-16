@@ -21,8 +21,8 @@ function App() {
       setBackgroundImage(imageUrl)
     }
     
-    // Check if user is already logged in from localStorage
-    const savedUser = localStorage.getItem('user')
+    // Check if user is already logged in from sessionStorage
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser)
@@ -30,7 +30,7 @@ function App() {
         setIsLoggedIn(true)
       } catch (err) {
         console.error('Error parsing saved user:', err)
-        localStorage.removeItem('user')
+        sessionStorage.removeItem('user')
       }
     }
   }, [activePage, isLoggedIn, backgroundImage])
@@ -44,8 +44,8 @@ function App() {
       loginTime: new Date().toISOString()
     }
     
-    // Save user data to localStorage
-    localStorage.setItem('user', JSON.stringify(userData))
+    // Save user data to sessionStorage
+    sessionStorage.setItem('user', JSON.stringify(userData))
     
     setUser(userData)
     setIsLoggedIn(true)
@@ -59,8 +59,8 @@ function App() {
     setIsLoggedIn(false)
     setUser(null)
     
-    // Remove from localStorage
-    localStorage.removeItem('user')
+    // Remove from sessionStorage
+    sessionStorage.removeItem('user')
     
     // Return to login page
     setActivePage('login')
