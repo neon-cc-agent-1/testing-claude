@@ -12,7 +12,13 @@ function Work() {
       title: 'AI Image Generator',
       description: 'An advanced AI-powered image generation tool that creates realistic images from text descriptions using state-of-the-art machine learning models.',
       image: 'https://picsum.photos/id/96/800/500',
-      technologies: ['React', 'Python', 'TensorFlow', 'OpenAI API', 'AWS Lambda'],
+      technologies: [
+        'React - Component-based UI library for building interactive interfaces with JSX syntax and hooks for state management',
+        'Python - Backend processing language for AI model integration with FastAPI for high-performance endpoints',
+        'TensorFlow - Machine learning framework for neural network implementation and model training',
+        'OpenAI API - Advanced AI capabilities for image generation with DALL-E integration',
+        'AWS Lambda - Serverless computing for scalable processing with API Gateway integration'
+      ],
       categories: ['AI', 'Machine Learning', 'Creative']
     },
     {
@@ -20,7 +26,13 @@ function Work() {
       title: 'Sentiment Analysis Tool',
       description: 'Natural language processing application that analyzes customer feedback and social media mentions to determine sentiment and key themes.',
       image: 'https://picsum.photos/id/42/800/500',
-      technologies: ['Python', 'NLTK', 'spaCy', 'Scikit-learn', 'Flask'],
+      technologies: [
+        'Python - Core language for NLP processing pipeline with AsyncIO for concurrent processing',
+        'NLTK - Natural Language Toolkit for text processing and analysis with custom tokenizers',
+        'spaCy - Advanced NLP library for efficient language processing with named entity recognition',
+        'Scikit-learn - Machine learning library for classification algorithms and feature extraction',
+        'Flask - Lightweight web framework for API endpoints with Swagger documentation'
+      ],
       categories: ['AI', 'Machine Learning', 'NLP']
     },
     {
@@ -28,7 +40,13 @@ function Work() {
       title: 'E-commerce Platform',
       description: 'A fully responsive e-commerce platform with product filtering, cart functionality, and payment processing.',
       image: 'https://picsum.photos/id/180/800/500',
-      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe API'],
+      technologies: [
+        'React - Frontend library for building dynamic user interfaces with Redux for global state management',
+        'Node.js - JavaScript runtime for server-side operations with Express middleware architecture',
+        'Express - Web application framework for RESTful API development with JWT authentication',
+        'MongoDB - NoSQL database for flexible product and user data storage with Mongoose ODM',
+        'Stripe API - Secure payment processing integration with webhook event handling'
+      ],
       categories: ['Web', 'AI', 'E-commerce']
     },
     {
@@ -36,7 +54,12 @@ function Work() {
       title: 'Task Management App',
       description: 'A collaborative task management application with real-time updates and team collaboration features.',
       image: 'https://picsum.photos/id/48/800/500',
-      technologies: ['React', 'Firebase', 'Material UI', 'Redux'],
+      technologies: [
+        'React - UI library for building responsive task interfaces with custom hooks for complex state logic',
+        'Firebase - Backend-as-a-Service for real-time database and authentication with Firestore listeners',
+        'Material UI - Component library with pre-built design system and theming customization',
+        'Redux - State management for predictable application data flow with Redux Toolkit for simplified setup'
+      ],
       categories: ['Web', 'Productivity', 'Team']
     },
     {
@@ -44,7 +67,12 @@ function Work() {
       title: 'Weather Dashboard',
       description: 'Interactive weather dashboard showing current conditions and forecasts for multiple locations.',
       image: 'https://picsum.photos/id/26/800/500',
-      technologies: ['JavaScript', 'OpenWeather API', 'Chart.js', 'CSS Grid'],
+      technologies: [
+        'JavaScript - Core programming language for frontend functionality with ES6+ features and async/await',
+        'OpenWeather API - Weather data provider with global coverage and 5-day forecast endpoints',
+        'Chart.js - Interactive data visualization library for weather metrics with responsive canvas rendering',
+        'CSS Grid - Modern layout system for responsive dashboard design with Flexbox fallbacks'
+      ],
       categories: ['Data', 'Weather', 'AI']
     },
     {
@@ -52,7 +80,12 @@ function Work() {
       title: 'Portfolio Website',
       description: 'Personal portfolio website with responsive design and animated transitions.',
       image: 'https://picsum.photos/id/24/800/500',
-      technologies: ['React', 'Framer Motion', 'Tailwind CSS', 'Netlify'],
+      technologies: [
+        'React - Component-based UI library for single-page application with React Router for navigation',
+        'Framer Motion - Animation library for smooth interface transitions with gesture recognition',
+        'Tailwind CSS - Utility-first CSS framework for rapid styling with custom design system extension',
+        'Netlify - Deployment and hosting platform with CI/CD integration and serverless functions'
+      ],
       categories: ['Web', 'Design', 'Portfolio']
     }
   ];
