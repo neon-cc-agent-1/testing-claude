@@ -55,3 +55,22 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Lazy loading styles */
+.loading {
+  filter: blur(10px);
+  transition: filter 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.loaded {
+  filter: blur(0);
+}
+
+.bg-loading {
+  background-color: #f0f0f0;
+  transition: background-color 0.3s ease-in-out, opacity 0.3s ease-in-out;
+}
+
+.bg-loaded {
+  background-color: transparent;
+}
