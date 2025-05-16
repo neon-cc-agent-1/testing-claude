@@ -1,64 +1,56 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/Work.css';
 import LazyImage from './LazyImage';
+import { getProjects, seedProjects } from '../api/projects';
 
 function Work() {
   const [selectedFilter, setSelectedFilter] = useState('AI');
   const [filteredProjects, setFilteredProjects] = useState([]);
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [allCategories, setAllCategories] = useState(['All']);
+  const [isRetrying, setIsRetrying] = useState(false);
   
-  const projects = [
-    {
-      id: 1,
-      title: 'AI Image Generator',
-      description: 'An advanced AI-powered image generation tool that creates realistic images from text descriptions using state-of-the-art machine learning models.',
-      image: 'https://picsum.photos/id/96/800/500',
-      technologies: ['React', 'Python', 'TensorFlow', 'OpenAI API', 'AWS Lambda'],
-      categories: ['AI', 'Machine Learning', 'Creative']
-    },
-    {
-      id: 2,
-      title: 'Sentiment Analysis Tool',
-      description: 'Natural language processing application that analyzes customer feedback and social media mentions to determine sentiment and key themes.',
-      image: 'https://picsum.photos/id/42/800/500',
-      technologies: ['Python', 'NLTK', 'spaCy', 'Scikit-learn', 'Flask'],
-      categories: ['AI', 'Machine Learning', 'NLP']
-    },
-    {
-      id: 3,
-      title: 'E-commerce Platform',
-      description: 'A fully responsive e-commerce platform with product filtering, cart functionality, and payment processing.',
-      image: 'https://picsum.photos/id/180/800/500',
-      technologies: ['React', 'Node.js', 'Express', 'MongoDB', 'Stripe API'],
-      categories: ['Web', 'AI', 'E-commerce']
-    },
-    {
-      id: 4,
-      title: 'Task Management App',
-      description: 'A collaborative task management application with real-time updates and team collaboration features.',
-      image: 'https://picsum.photos/id/48/800/500',
-      technologies: ['React', 'Firebase', 'Material UI', 'Redux'],
-      categories: ['Web', 'Productivity', 'Team']
-    },
-    {
-      id: 5,
-      title: 'Weather Dashboard',
-      description: 'Interactive weather dashboard showing current conditions and forecasts for multiple locations.',
-      image: 'https://picsum.photos/id/26/800/500',
-      technologies: ['JavaScript', 'OpenWeather API', 'Chart.js', 'CSS Grid'],
-      categories: ['Data', 'Weather', 'AI']
-    },
-    {
-      id: 6,
-      title: 'Portfolio Website',
-      description: 'Personal portfolio website with responsive design and animated transitions.',
-      image: 'https://picsum.photos/id/24/800/500',
-      technologies: ['React', 'Framer Motion', 'Tailwind CSS', 'Netlify'],
-      categories: ['Web', 'Design', 'Portfolio']
+  // Fetch projects from MongoDB
+  const fetchProjects = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      // First try to seed the database with initial data (will only run once)
+      const seedResult = await seedProjects();
+      if (!seedResult.success) {
+        console.warn('Seeding warning:', seedResult.error);
+        // Continue even if seeding fails - data might already exist
+      }
+      
+      // Then fetch the projects
+      const result = await getProjects();
+      
+      if (result.success) {
+        setProjects(result.data);
+        
+        // Extract all unique categories
+        const categories = result.data.flatMap(project => project.categories);
+        const uniqueCategories = ['All', ...new Set(categories)];
+        setAllCategories(uniqueCategories);
+      } else {
+        setError(`Failed to fetch projects: ${result.error}`);
+      }
+    } catch (err) {
+      console.error('Error fetching projects:', err);
+      setError(`An error occurred: ${err.message}`);
+    } finally {
+      setLoading(false);
+      setIsRetrying(false);
     }
-  ];
+  }, []);
   
-  // Get all unique categories
-  const allCategories = ['All', ...new Set(projects.flatMap(project => project.categories))];
+  // Initial data load
+  useEffect(() => {
+    fetchProjects();
+  }, [fetchProjects]);
   
   // Filter projects based on selected category
   useEffect(() => {
@@ -76,65 +68,98 @@ function Work() {
   const handleFilterChange = (category) => {
     setSelectedFilter(category);
   };
+  
+  // Handle retry when loading fails
+  const handleRetry = () => {
+    setIsRetrying(true);
+    fetchProjects();
+  };
 
   return (
-    <div className="work-container">
+    <div className="work-container" data-testid="work-container">
       <h1>My Projects</h1>
       <p className="work-intro">Here's a collection of projects I've worked on, showcasing various technologies and skills.</p>
       
-      <div className="filter-controls">
-        <p>Filter by category:</p>
-        <div className="filter-buttons">
-          {allCategories.map(category => (
-            <button 
-              key={category} 
-              className={`filter-btn ${selectedFilter === category ? 'active' : ''}`}
-              onClick={() => handleFilterChange(category)}
-            >
-              {category}
-            </button>
-          ))}
+      {loading ? (
+        <div className="loading" data-testid="loading-state">
+          <p>{isRetrying ? 'Retrying...' : 'Loading projects...'}</p>
         </div>
-      </div>
-      
-      <div className="projects-grid">
-        {filteredProjects.map(project => (
-          <div key={project.id} className="project-card">
-            <div className="project-image">
-              <LazyImage src={project.image} alt={project.title} />
-            </div>
-            <div className="project-details">
-              <h2>{project.title}</h2>
-              <p>{project.description}</p>
-              <div className="categories">
-                <ul className="category-tags">
-                  {project.categories.map((category, index) => (
-                    <li 
-                      key={index} 
-                      className={`category-tag ${category === 'AI' ? 'ai-tag' : ''}`}
-                    >
-                      {category}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="technologies">
-                <h3>Technologies:</h3>
-                <ul>
-                  {project.technologies.map((tech, index) => (
-                    <li key={index}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
+      ) : error ? (
+        <div className="error" data-testid="error-state">
+          <p>{error}</p>
+          <button onClick={handleRetry} className="retry-button">
+            Try Again
+          </button>
+        </div>
+      ) : (
+        <>
+          <div className="filter-controls">
+            <p>Filter by category:</p>
+            <div className="filter-buttons">
+              {allCategories.map(category => (
+                <button 
+                  key={category} 
+                  className={`filter-btn ${selectedFilter === category ? 'active' : ''}`}
+                  onClick={() => handleFilterChange(category)}
+                  aria-pressed={selectedFilter === category}
+                >
+                  {category}
+                </button>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-      
-      {filteredProjects.length === 0 && (
-        <div className="no-projects">
-          <p>No projects found with the selected filter.</p>
-        </div>
+          
+          <div className="projects-grid" data-testid="projects-grid">
+            {filteredProjects.map(project => (
+              <div key={project._id} className="project-card">
+                <div className="project-image">
+                  <LazyImage 
+                    src={project.image} 
+                    alt={project.title}
+                    fallback="/placeholder-project.jpg" 
+                  />
+                </div>
+                <div className="project-details">
+                  <h2>{project.title}</h2>
+                  <p>{project.description}</p>
+                  <div className="categories">
+                    <ul className="category-tags">
+                      {project.categories.map((category, index) => (
+                        <li 
+                          key={index} 
+                          className={`category-tag ${category === 'AI' ? 'ai-tag' : ''}`}
+                          onClick={() => handleFilterChange(category)}
+                        >
+                          {category}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="technologies">
+                    <h3>Technologies:</h3>
+                    <ul>
+                      {project.technologies.map((tech, index) => (
+                        <li key={index}>{tech}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          {filteredProjects.length === 0 && !loading && (
+            <div className="no-projects" data-testid="no-projects">
+              <p>No projects found with the selected filter.</p>
+              <button 
+                onClick={() => setSelectedFilter('All')} 
+                className="view-all-button"
+              >
+                View All Projects
+              </button>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
