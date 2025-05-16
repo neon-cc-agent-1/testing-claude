@@ -6,6 +6,10 @@ function FAQ() {
 
   const faqs = [
     {
+      question: "What is GitHub?",
+      answer: "GitHub is a web-based platform for version control and collaboration using Git. It allows developers to store, manage, track, and control changes to their code. GitHub provides features like pull requests, issue tracking, code review, and project management tools, making it easier for individuals and teams to collaborate on software projects."
+    },
+    {
       question: "What is C++?",
       answer: "C++ is a high-performance, general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language. It supports object-oriented, procedural, and generic programming paradigms, and is widely used for developing operating systems, game engines, desktop applications, and performance-critical software."
     },
