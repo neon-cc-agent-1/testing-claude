@@ -6,6 +6,10 @@ function FAQ() {
 
   const faqs = [
     {
+      question: "What is C++?",
+      answer: "C++ is a high-performance, general-purpose programming language created by Bjarne Stroustrup as an extension of the C programming language. It supports object-oriented, procedural, and generic programming paradigms, and is widely used for developing operating systems, game engines, desktop applications, and performance-critical software."
+    },
+    {
       question: "What is the stack in programming?",
       answer: "The stack is a region of memory that stores temporary variables created by each function. Variables are declared, stored, and initialized during runtime. When a function is called, its variables are pushed onto the stack, and when the function exits, they are popped off. The stack has a fixed size and operates in a Last-In-First-Out (LIFO) manner."
     },
