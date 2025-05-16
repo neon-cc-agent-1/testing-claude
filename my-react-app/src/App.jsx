@@ -1,32 +1,22 @@
-import { useState, useEffect, Suspense } from 'react'
+import { useState, useEffect, Suspense, lazy, useCallback, useMemo } from 'react'
 import { googleLogout } from '@react-oauth/google'
 import './App.css'
 import Navbar from './components/Navbar'
 import Home from './components/Home'
-import FAQ from './components/FAQ'
-import Login from './components/Login'
-import Gallery from './components/Gallery'
-import Work from './components/Work'
 
-// We can use React.lazy for code splitting and lazy loading components
-// Example: const LazyFAQ = lazy(() => import('./components/FAQ'));
+// Lazy load components with prefetch when supported
+const FAQ = lazy(() => import('./components/FAQ'))
+const Login = lazy(() => import('./components/Login'))
+const Gallery = lazy(() => import('./components/Gallery'))
+const Work = lazy(() => import('./components/Work'))
 
-function App() {
-  const [count, setCount] = useState(0)
-  const [backgroundImage, setBackgroundImage] = useState(null)
-  const [activePage, setActivePage] = useState('home')
+// Custom hook for auth management
+function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
-
+  
+  // Load user from session storage on mount
   useEffect(() => {
-    // Get a random image URL - only if we're on the home page
-    if (activePage === 'home' && isLoggedIn && !backgroundImage) {
-      // Using picsum.photos which is a safe image service
-      const imageUrl = 'https://picsum.photos/1920/1080'
-      setBackgroundImage(imageUrl)
-    }
-    
-    // Check if user is already logged in from sessionStorage
     const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
       try {
@@ -38,38 +28,110 @@ function App() {
         sessionStorage.removeItem('user')
       }
     }
-  }, [activePage, isLoggedIn, backgroundImage])
-
-  const handleLogin = (response) => {
-    // In a real app, you would process the credential response here
-    // and extract user information after verification
+  }, [])
+  
+  // Login handler
+  const handleLogin = useCallback((response) => {
     const userData = { 
       id: response.clientId,
       credential: response.credential,
       loginTime: new Date().toISOString()
     }
     
-    // Save user data to sessionStorage
     sessionStorage.setItem('user', JSON.stringify(userData))
-    
     setUser(userData)
     setIsLoggedIn(true)
-  }
+  }, [])
   
-  const handleLogout = () => {
-    // Log out from Google
+  // Logout handler
+  const handleLogout = useCallback((setActivePage) => {
     googleLogout()
-    
-    // Clear local state
     setIsLoggedIn(false)
     setUser(null)
-    
-    // Remove from sessionStorage
     sessionStorage.removeItem('user')
-    
-    // Return to login page
     setActivePage('login')
+  }, [])
+  
+  return { isLoggedIn, user, handleLogin, handleLogout }
+}
+
+// Custom hook for background image management
+function useBackgroundImage(activePage, isLoggedIn) {
+  const [backgroundImage, setBackgroundImage] = useState(null)
+  
+  useEffect(() => {
+    if (activePage === 'home' && isLoggedIn && !backgroundImage) {
+      const imageUrl = 'https://picsum.photos/1920/1080'
+      setBackgroundImage(imageUrl)
+    }
+  }, [activePage, isLoggedIn, backgroundImage])
+  
+  return backgroundImage
+}
+
+// Prefetch a component when needed
+function prefetchComponent(component) {
+  if (typeof component === 'function') {
+    component()
   }
+}
+
+function App() {
+  const [count, setCount] = useState(0)
+  const [activePage, setActivePage] = useState('home')
+  const { isLoggedIn, user, handleLogin, handleLogout } = useAuth()
+  const backgroundImage = useBackgroundImage(activePage, isLoggedIn)
+
+  // Prefetch other components when idle
+  useEffect(() => {
+    if ('requestIdleCallback' in window) {
+      const handle = requestIdleCallback(() => {
+        prefetchComponent(FAQ)
+        prefetchComponent(Gallery)
+      })
+      return () => cancelIdleCallback(handle)
+    }
+  }, [])
+  
+  // Handle app-wide logout with the proper setActivePage reference
+  const handleAppLogout = useCallback(() => {
+    handleLogout(setActivePage)
+  }, [handleLogout, setActivePage])
+
+  // Memoize the active component to prevent unnecessary re-renders
+  const activeComponent = useMemo(() => {
+    if (isLoggedIn) {
+      switch (activePage) {
+        case 'home':
+          return (
+            <Home 
+              count={count} 
+              setCount={setCount}
+              backgroundImage={backgroundImage}
+              userName={user ? 'Google User' : 'User'}
+            />
+          )
+        case 'faq':
+          return <FAQ />
+        case 'gallery':
+          return <Gallery />
+        case 'work':
+          return <Work />
+        default:
+          return <Home 
+            count={count} 
+            setCount={setCount}
+            backgroundImage={backgroundImage}
+            userName={user ? 'Google User' : 'User'}
+          />
+      }
+    } else {
+      // Not logged in
+      return activePage === 'gallery' ? 
+        <Gallery /> : 
+        <Login onLogin={handleLogin} />
+    }
+  }, [activePage, isLoggedIn, count, setCount, backgroundImage, user, handleLogin])
 
   return (
     <div className="app-container">
@@ -77,37 +139,11 @@ function App() {
         activePage={activePage} 
         onChangePage={setActivePage} 
         isLoggedIn={isLoggedIn} 
-        onLogout={handleLogout}
+        onLogout={handleAppLogout}
       />
       
       <Suspense fallback={<div>Loading...</div>}>
-        {isLoggedIn ? (
-          <>
-            {activePage === 'home' && (
-              <Home 
-                count={count} 
-                setCount={setCount}
-                backgroundImage={backgroundImage}
-                userName={user ? 'Google User' : 'User'}
-              />
-            )}
-            
-            {/* Here we could use lazy loading with React.lazy if needed */}
-            {activePage === 'faq' && <FAQ />}
-            
-            {activePage === 'gallery' && <Gallery />}
-            
-            {activePage === 'work' && <Work />}
-          </>
-        ) : (
-          <>
-            {activePage === 'gallery' ? (
-              <Gallery />
-            ) : (
-              <Login onLogin={handleLogin} onLoginSuccess={() => setIsLoggedIn(true)} />
-            )}
-          </>
-        )}
+        {activeComponent}
       </Suspense>
     </div>
   )

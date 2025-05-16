@@ -1,12 +1,53 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo, memo, useCallback } from 'react';
 import '../styles/Work.css';
 import LazyImage from './LazyImage';
+
+// Memoized project card component to prevent unnecessary re-renders
+const ProjectCard = memo(({ project }) => {
+  return (
+    <div key={project.id} className="project-card">
+      <div className="project-image">
+        <LazyImage 
+          src={project.image} 
+          alt={project.title} 
+          width="100%" 
+          height="auto"
+        />
+      </div>
+      <div className="project-details">
+        <h2>{project.title}</h2>
+        <p>{project.description}</p>
+        <div className="categories">
+          <ul className="category-tags">
+            {project.categories.map((category, index) => (
+              <li 
+                key={index} 
+                className={`category-tag ${category === 'AI' ? 'ai-tag' : ''}`}
+              >
+                {category}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="technologies">
+          <h3>Technologies:</h3>
+          <ul>
+            {project.technologies.map((tech, index) => (
+              <li key={index}>{tech}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+});
 
 function Work() {
   const [selectedFilter, setSelectedFilter] = useState('AI');
   const [filteredProjects, setFilteredProjects] = useState([]);
   
-  const projects = [
+  // Use useMemo to prevent recreation of the projects array on each render
+  const projects = useMemo(() => [
     {
       id: 1,
       title: 'AI Image Generator',
@@ -55,10 +96,12 @@ function Work() {
       technologies: ['React', 'Framer Motion', 'Tailwind CSS', 'Netlify'],
       categories: ['Web', 'Design', 'Portfolio']
     }
-  ];
+  ], []);
   
-  // Get all unique categories
-  const allCategories = ['All', ...new Set(projects.flatMap(project => project.categories))];
+  // Memoize categories to prevent recalculation on each render
+  const allCategories = useMemo(() => {
+    return ['All', ...new Set(projects.flatMap(project => project.categories))];
+  }, [projects]);
   
   // Filter projects based on selected category
   useEffect(() => {
@@ -72,10 +115,17 @@ function Work() {
     }
   }, [selectedFilter, projects]);
   
-  // Handle filter change
-  const handleFilterChange = (category) => {
+  // Handle filter change with useCallback
+  const handleFilterChange = useCallback((category) => {
     setSelectedFilter(category);
-  };
+  }, []);
+
+  // Memoize the project list to prevent unnecessary re-renders
+  const projectCards = useMemo(() => {
+    return filteredProjects.map(project => (
+      <ProjectCard key={project.id} project={project} />
+    ));
+  }, [filteredProjects]);
 
   return (
     <div className="work-container">
@@ -98,37 +148,7 @@ function Work() {
       </div>
       
       <div className="projects-grid">
-        {filteredProjects.map(project => (
-          <div key={project.id} className="project-card">
-            <div className="project-image">
-              <LazyImage src={project.image} alt={project.title} />
-            </div>
-            <div className="project-details">
-              <h2>{project.title}</h2>
-              <p>{project.description}</p>
-              <div className="categories">
-                <ul className="category-tags">
-                  {project.categories.map((category, index) => (
-                    <li 
-                      key={index} 
-                      className={`category-tag ${category === 'AI' ? 'ai-tag' : ''}`}
-                    >
-                      {category}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div className="technologies">
-                <h3>Technologies:</h3>
-                <ul>
-                  {project.technologies.map((tech, index) => (
-                    <li key={index}>{tech}</li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
-        ))}
+        {projectCards}
       </div>
       
       {filteredProjects.length === 0 && (
@@ -140,4 +160,4 @@ function Work() {
   );
 }
 
-export default Work;
+export default memo(Work);
