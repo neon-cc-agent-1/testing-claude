@@ -1,26 +1,21 @@
 import { useState, useEffect, useRef } from 'react';
 
-function LazyImage({ src, alt, className, style, placeholderSrc, threshold = 0.1, ...props }) {
+function LazyImage({ src, alt, className, style, width, height, placeholder = '#242424' }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
   const imgRef = useRef(null);
 
-  // Use native loading="lazy" as a fallback
-  const nativeLazyLoading = 'loading' in HTMLImageElement.prototype;
-
   useEffect(() => {
-    // Skip if native lazy loading is supported and we're not using a placeholder
-    if (nativeLazyLoading && !placeholderSrc) return;
-
     const observer = new IntersectionObserver(
       (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          setIsInView(true);
-          observer.disconnect();
-        }
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            setIsInView(true);
+            observer.unobserve(entry.target);
+          }
+        });
       },
-      { threshold }
+      { threshold: 0.1, rootMargin: '200px' } // Start loading when within 200px of viewport
     );
 
     const currentImgRef = imgRef.current;
@@ -33,30 +28,46 @@ function LazyImage({ src, alt, className, style, placeholderSrc, threshold = 0.1
         observer.unobserve(currentImgRef);
       }
     };
-  }, [threshold, nativeLazyLoading, placeholderSrc]);
+  }, []);
 
   const handleImageLoad = () => {
     setIsLoaded(true);
   };
 
-  // If using placeholder, we need to control when to load the actual image
-  const imageSrc = placeholderSrc && !isInView ? placeholderSrc : src;
+  // Combined styles
+  const imageStyle = {
+    ...style,
+    opacity: isLoaded ? 1 : 0,
+    transition: 'opacity 0.3s ease-in-out',
+    backgroundColor: placeholder
+  };
 
   return (
-    <img
+    <div 
       ref={imgRef}
-      src={imageSrc}
-      alt={alt}
-      className={`${className || ''} ${isLoaded ? 'loaded' : 'loading'}`}
-      style={{
-        transition: 'opacity 0.3s ease',
-        opacity: isLoaded ? 1 : 0.5,
-        ...style
+      style={{ 
+        backgroundColor: placeholder,
+        width: width,
+        height: height,
+        display: 'inline-block',
+        overflow: 'hidden',
+        position: 'relative',
       }}
-      loading={nativeLazyLoading && !placeholderSrc ? 'lazy' : undefined}
-      onLoad={handleImageLoad}
-      {...props}
-    />
+    >
+      {isInView && (
+        <img
+          src={src}
+          alt={alt}
+          className={className}
+          style={imageStyle}
+          onLoad={handleImageLoad}
+          width={width}
+          height={height}
+          loading="lazy"
+          decoding="async"
+        />
+      )}
+    </div>
   );
 }
 

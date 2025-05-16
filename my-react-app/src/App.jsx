@@ -12,14 +12,21 @@ import Gallery from './components/Gallery'
 
 function App() {
   const [count, setCount] = useState(0)
-  const [backgroundImage] = useState('https://randomimages.org/api/random?width=1920&height=1080')
+  const [backgroundImage, setBackgroundImage] = useState(null)
   const [activePage, setActivePage] = useState('home')
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    // Check if user is already logged in from localStorage
-    const savedUser = localStorage.getItem('user')
+    // Get a random image URL - only if we're on the home page
+    if (activePage === 'home' && isLoggedIn && !backgroundImage) {
+      // Using picsum.photos which is a safe image service
+      const imageUrl = 'https://picsum.photos/1920/1080'
+      setBackgroundImage(imageUrl)
+    }
+    
+    // Check if user is already logged in from sessionStorage
+    const savedUser = sessionStorage.getItem('user')
     if (savedUser) {
       try {
         const parsedUser = JSON.parse(savedUser)
@@ -27,10 +34,10 @@ function App() {
         setIsLoggedIn(true)
       } catch (err) {
         console.error('Error parsing saved user:', err)
-        localStorage.removeItem('user')
+        sessionStorage.removeItem('user')
       }
     }
-  }, [])
+  }, [activePage, isLoggedIn, backgroundImage])
 
   const handleLogin = (response) => {
     // In a real app, you would process the credential response here
@@ -41,8 +48,8 @@ function App() {
       loginTime: new Date().toISOString()
     }
     
-    // Save user data to localStorage
-    localStorage.setItem('user', JSON.stringify(userData))
+    // Save user data to sessionStorage
+    sessionStorage.setItem('user', JSON.stringify(userData))
     
     setUser(userData)
     setIsLoggedIn(true)
@@ -56,8 +63,8 @@ function App() {
     setIsLoggedIn(false)
     setUser(null)
     
-    // Remove from localStorage
-    localStorage.removeItem('user')
+    // Remove from sessionStorage
+    sessionStorage.removeItem('user')
     
     // Return to login page
     setActivePage('login')
