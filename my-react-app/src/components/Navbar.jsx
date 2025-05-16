@@ -41,6 +41,12 @@ function Navbar({ activePage, onChangePage, isLoggedIn, onLogout }) {
         >
           Gallery
         </li>
+        <li 
+          className={activePage === 'work' ? 'active' : ''}
+          onClick={() => handlePageChange('work')}
+        >
+          Work
+        </li>
         {isLoggedIn ? (
           <li className="logout-btn" onClick={onLogout}>
             Logout
