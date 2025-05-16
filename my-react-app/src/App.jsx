@@ -6,6 +6,7 @@ import Home from './components/Home'
 import FAQ from './components/FAQ'
 import Login from './components/Login'
 import Gallery from './components/Gallery'
+import Work from './components/Work'
 
 // We can use React.lazy for code splitting and lazy loading components
 // Example: const LazyFAQ = lazy(() => import('./components/FAQ'));
@@ -95,6 +96,8 @@ function App() {
             {activePage === 'faq' && <FAQ />}
             
             {activePage === 'gallery' && <Gallery />}
+            
+            {activePage === 'work' && <Work />}
           </>
         ) : (
           <>
