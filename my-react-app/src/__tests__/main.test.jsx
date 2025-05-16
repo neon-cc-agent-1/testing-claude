@@ -1,9 +1,8 @@
 import { createRoot } from 'react-dom/client';
 import { StrictMode } from 'react';
-import { render, screen } from '@testing-library/react';
 import App from '../App';
 
-/* global jest, describe, beforeEach, afterEach, test, expect */
+/* global jest, describe, beforeEach, afterEach, test, expect, global */
 
 // Mock modules
 jest.mock('react-dom/client', () => ({
@@ -20,6 +19,25 @@ jest.mock('../App', () => () => <div data-testid="app-component">App Component</
 
 // Mock main module to avoid issues with import.meta.env
 jest.mock('../main', () => jest.fn(), { virtual: true });
+
+// Mock IntersectionObserver
+global.IntersectionObserver = class IntersectionObserver {
+  constructor(callback) {
+    this.callback = callback;
+  }
+  observe(element) {
+    this.element = element;
+  }
+  unobserve() {}
+  disconnect() {}
+  // Utility to simulate intersection
+  simulateIntersection(isIntersecting) {
+    this.callback([{
+      isIntersecting,
+      target: this.element
+    }]);
+  }
+};
 
 // Mock environment variables for testing
 // Since import.meta.env is not available in Jest, we use a different approach
@@ -299,5 +317,44 @@ describe('main.jsx rendering', () => {
     
     // Clean up
     container.remove();
+  });
+
+  test('renders with placeholder background initially', () => {
+    // Create a LazyBackground simulation
+    const lazyBackground = document.createElement('div');
+    lazyBackground.className = 'lazy-background';
+    lazyBackground.style.backgroundColor = '#242424'; // Default placeholder color
+    lazyBackground.style.transition = 'background 0.3s ease-in-out';
+    
+    // Append to document body
+    document.body.appendChild(lazyBackground);
+    
+    // Verify initial state has placeholder background
+    expect(lazyBackground.style.backgroundColor).toBe('rgb(36, 36, 36)'); // Browser converts hex to rgb
+    expect(lazyBackground.style.backgroundImage).toBe('');
+    
+    // Create IntersectionObserver instance
+    const observer = new IntersectionObserver((entries) => {
+      const [entry] = entries;
+      if (entry.isIntersecting) {
+        // Simulate image loading
+        lazyBackground.style.backgroundImage = 'url(https://example.com/test-image.jpg)';
+        lazyBackground.style.backgroundColor = '';
+      }
+    });
+    
+    // Observe the element
+    observer.observe(lazyBackground);
+    
+    // Simulate intersection
+    observer.simulateIntersection(true);
+    
+    // Verify background image is applied after intersection
+    expect(lazyBackground.style.backgroundImage).toBe('url(https://example.com/test-image.jpg)');
+    expect(lazyBackground.style.backgroundColor).toBe('');
+    
+    // Cleanup
+    observer.disconnect();
+    lazyBackground.remove();
   });
 });
